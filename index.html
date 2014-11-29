@@ -1,10 +1,9 @@
 <html>
 <head>
-    <meta charset="utf-8"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/leaflet.js"></script> 
     <link rel="stylesheet" href="css/leaflet.css" />
-    <script src="js/leaflet-openweather.js"></script>
+    <script src="js/leaflet-openweathermap.js"></script>
 
 </head>
 
@@ -17,7 +16,7 @@
           osmLayer = new L.TileLayer(osmUrl, {maxZoom: 18, attribution: osmAttribution});
           
       var map = new L.Map('map');
-      map.setView(new L.LatLng(-7.5, 112), 9)
+      map.setView(new L.LatLng(-7.5, 112), 7)
       map.addLayer(osmLayer);
  
       var precipitation = L.OWM.precipitation({showLegend: false, opacity: 0.5});
