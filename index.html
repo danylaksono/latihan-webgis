@@ -1,12 +1,69 @@
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8" />
+<title>Peta dengan Marker</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
 </head>
-
 <body>
-  <p>
-    Terserah
-  </p>
+<div id="map"></div>
+
+<script>
+    var map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+        center: [112.56513, -6.98846],
+        zoom: 8
+    });
+
+    //add marker
+    var marker = new maplibregl.Marker()
+        .setLngLat([112.56513, -6.98846])
+        .addTo(map);
+
+    // declare a dictionaries of lat long and address of marker
+    var markers = {
+        "marker1": {
+            "lat": -6.98846,
+            "lng": 112.56513,
+            "address": "Jl. Raya  Kedungkandang No. 1, Kedungkandang, Kec. Kedungkandang, Kabupaten Malang, Jawa Timur 65163"
+        },  
+        "marker2": {
+            "lat": -7.20000,
+            "lng": 112.60000,
+            "address": "Jl. Raya  Kedungkandang No. 2, Kedungkandang, Kec. Kedungkandang, Kabupaten Malang, Jawa Timur 65163"
+        },
+        "marker3": {
+            "lat": -7.42000,
+            "lng": 112.60000,
+            "address": "Jl. Raya  Kedungkandang No. 3, Kedungkandang, Kec. Kedungkandang, Kabupaten Malang, Jawa Timur 65163"
+        }
+    };
+
+    // loop through the markers object and add the markers to the map
+    for (var key in markers) {
+        if (markers.hasOwnProperty(key)) {
+            var lng = markers[key].lng;
+            var lat = markers[key].lat;
+            var address = markers[key].address;
+
+            // make a marker for each feature and add to the map
+            new maplibregl.Marker()
+                .setLngLat([lng, lat])
+                .setPopup(new maplibregl.Popup({ offset: 25 }) // add popups
+                    .setHTML('<h3>' + address + '</h3>'))
+                .addTo(map);
+        }
+    }
+
+
+</script>
+
 </body>
-
-
 </html>
