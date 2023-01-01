@@ -1,60 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<title>Peta dengan Marker</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-<style>
-	body { margin: 0; padding: 0; }
-	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
+  <meta charset="utf-8" />
+  <title>Peta Daftar Titik</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
 </head>
 <body>
-<div id="map"></div>
+  <div id="map"></div>
+  <script>
+      // Daftar Titik. Anda bisa menambahkan marker baru di sini
+      var markers = [
+          {
+              "lat": -6.954619,
+              "lng": 112.49871,  
+              "keterangan": "MIM 03 Doudo" 
+          },
+          {
+              "lat": -6.98846,
+              "lng": 112.56513, 
+              "keterangan": "SMP N 1 Sidayu" 
+          },  
+          {
+              "lat": -7.16812,
+              "lng": 112.65273, 
+              "keterangan": "SMAN 1 Gresik"
+          },
+      ];
 
-<script>
-    var map = new maplibregl.Map({
-        container: 'map',
-        style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-        center: [112.56513, -6.98846],
-        zoom: 8
-    });
+      // Fungsi untuk menambahkan marker ke map
+      function addMarker(marker) {
+          new maplibregl.Marker()
+              .setLngLat([marker.lng, marker.lat])
+              .setPopup(new maplibregl.Popup({ offset: 25 }) // add popups
+                  .setHTML('<h3>' + marker.keterangan + '</h3>'))
+              .addTo(map);
+      };
 
-    // declare a dictionaries of lat long and address of marker
-    var markers = {
-        "marker1": {
-            "lat": -6.98846,
-            "lng": 112.56513, 
-            "keterangan": "SMP N 1 Sidayu" 
-        },  
-        "marker2": {
-            "lat": -7.16812,
-            "lng": 112.65273, 
-            "keterangan": "SMAN 1 Gresik"
-        },
-    };
+      // Deklarasi map
+      var map = new maplibregl.Map({
+          container: 'map',
+          style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+          center: [112.56513, -6.98846],
+          zoom: 8
+      });
 
-  
-    // loop through the markers object and add the markers to the map
-    for (var key in markers) {
-        if (markers.hasOwnProperty(key)) {
-            var lng = markers[key].lng;
-            var lat = markers[key].lat;
-            var keterangan = markers[key].keterangan;
+      // Tambahkan marker ke map
+      markers.forEach(marker => addMarker(marker));
 
-            // make a marker for each feature and add to the map
-            new maplibregl.Marker()
-                .setLngLat([lng, lat])
-                .setPopup(new maplibregl.Popup({ offset: 25 }) // add popups
-                    .setHTML('<h3>' + keterangan + '</h3>'))
-                .addTo(map);
-        }
-    }
-
-
-</script>
-
+      // Zoom ke semua marker
+      const bounds = new maplibregl.LngLatBounds();
+      markers.map(marker => bounds.extend([marker.lng, marker.lat]))
+      map.fitBounds(bounds, {
+        padding: 100
+      });
+  </script>
 </body>
 </html>
