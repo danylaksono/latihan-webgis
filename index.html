@@ -22,42 +22,33 @@
         zoom: 8
     });
 
-    //add marker
-    var marker = new maplibregl.Marker()
-        .setLngLat([112.56513, -6.98846])
-        .addTo(map);
-
     // declare a dictionaries of lat long and address of marker
     var markers = {
         "marker1": {
             "lat": -6.98846,
-            "lng": 112.56513,
-            "address": "Jl. Raya  Kedungkandang No. 1, Kedungkandang, Kec. Kedungkandang, Kabupaten Malang, Jawa Timur 65163"
+            "lng": 112.56513, 
+            "keterangan": "SMP N 1 Sidayu" 
         },  
         "marker2": {
-            "lat": -7.20000,
-            "lng": 112.60000,
-            "address": "Jl. Raya  Kedungkandang No. 2, Kedungkandang, Kec. Kedungkandang, Kabupaten Malang, Jawa Timur 65163"
+            "lat": -7.16812,
+            "lng": 112.65273, 
+            "keterangan": "SMAN 1 Gresik"
         },
-        "marker3": {
-            "lat": -7.42000,
-            "lng": 112.60000,
-            "address": "Jl. Raya  Kedungkandang No. 3, Kedungkandang, Kec. Kedungkandang, Kabupaten Malang, Jawa Timur 65163"
-        }
     };
 
+  
     // loop through the markers object and add the markers to the map
     for (var key in markers) {
         if (markers.hasOwnProperty(key)) {
             var lng = markers[key].lng;
             var lat = markers[key].lat;
-            var address = markers[key].address;
+            var keterangan = markers[key].keterangan;
 
             // make a marker for each feature and add to the map
             new maplibregl.Marker()
                 .setLngLat([lng, lat])
                 .setPopup(new maplibregl.Popup({ offset: 25 }) // add popups
-                    .setHTML('<h3>' + address + '</h3>'))
+                    .setHTML('<h3>' + keterangan + '</h3>'))
                 .addTo(map);
         }
     }
